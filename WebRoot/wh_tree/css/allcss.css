@@ -1,0 +1,212 @@
+@CHARSET "UTF-8";
+
+.rig {
+	filter: progid : dximageTransform.Microsoft.Gradient ( gradientType = 1,
+		startColorStr = #FFFFFF, endColorStr = #024627 );
+}
+
+.image1 {
+	padding: 7px;
+	border: 1px solid #000;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	background: #fff;
+	filter: progid : DXImageTransform.Microsoft.Shadow ( Strength = 4,Direction = 135, Color = '#000000' );
+}
+
+.fieldset1{
+	padding:7px;
+	border:1px solid #006600;
+	-moz-box-shadow:3px 3px 4px #000;
+	-webkit-box-shadow:3px 3px 4px #000;
+	box-shadow:3px 3px 4px #000;
+	background:#fff;
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='#006600');
+	/*background: url(../images/backgrndgl41.jpg); color: black;*/
+	color: white; 
+	font-family: Georgia; line-height: 1.5; margin: 0.25em 0.25em;	
+}
+
+.drop0 {
+	color: black;
+	/*filter: DropShadow(Color = black, OffX = 1, OffY = 1, Positive = 1);*/
+	FONT-SIZE: 15px;
+	font-weight: bold;
+}
+.drop02 {
+	/*color: #FFFFFF;*/
+	filter: progid : DXImageTransform.Microsoft.Shadow ( Strength = 4,Direction = 135, Color = '#000000' );
+	FONT-SIZE: 13px;
+}
+
+.drop1 {
+	color:#000000;
+	filter: DropShadow(Color=#FFFFFF, OffX=1, OffY=1, Positive=1);
+	FONT-SIZE: 13px;
+	}
+
+.image {
+	filter: progid : dximageTransform.Microsoft.Gradient ( gradientType = 0, startColorStr = #FFFFFF, endColorStr = #0f0527 );
+}
+
+.body {
+	/*
+	background: url(../images/backgrndgl41.jpg);
+	color: black;
+	*/
+	color: black;
+	font-family: Georgia;
+	line-height: 1.5;
+	leftmargin: 0;
+	topmargin: 0;
+	marginwidth: 0;
+	marginheight: 0;	
+}
+
+.body1 {
+	/*
+	background: url(../images/backgrnd.jpg);
+	color: black;
+	*/
+	color: black;
+	font-family: Georgia;
+	line-height: 1.5;
+	leftmargin: 0;
+	topmargin: 0;
+	marginwidth: 0;
+	marginheight: 0;
+}
+
+.fieldset2{
+	padding:7px;
+	border:1px solid #000;
+	-moz-box-shadow:3px 3px 4px #000;
+	-webkit-box-shadow:3px 3px 4px #000;
+	box-shadow:3px 3px 4px #000;
+	background:#fff;
+	filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='#000000');
+	/*
+	background: url(../images/backgrnd.jpg); 
+	color: black;
+	*/
+	color: white; 
+	font-family: Georgia; 
+	line-height: 1.5; 
+	margin: 0.5em 1em;	
+}
+
+.btn1_mouseout {
+	BORDER-RIGHT: #7EBF4F 1px solid; 
+	PADDING-RIGHT: 2px; 
+	BORDER-TOP: #7EBF4F 1px solid; 
+	PADDING-LEFT: 2px; 
+	FONT-SIZE: 12px; 
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#6e9452); 
+	BORDER-LEFT: #7EBF4F 1px solid; 
+	CURSOR: hand; 
+	COLOR: black; 
+	PADDING-TOP: 2px; 
+	BORDER-BOTTOM: #7EBF4F 1px solid
+}
+.btn1_mouseover {
+	BORDER-RIGHT: #7EBF4F 1px solid; 
+	PADDING-RIGHT: 2px; 
+	BORDER-TOP: #7EBF4F 1px solid; 
+	PADDING-LEFT: 2px; 
+	FONT-SIZE: 12px; 
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#CAE4B6); 
+	BORDER-LEFT: #7EBF4F 1px solid; 
+	CURSOR: hand; 
+	COLOR: black; 
+	PADDING-TOP: 2px; 
+	BORDER-BOTTOM: #7EBF4F 1px solid
+}
+
+.font14 {
+	FONT-SIZE: 13px;
+}
+.fontbox {
+	COLOR: #0f523d;
+	FILTER: DropShadow(color = #b3c6c0, OffX = 1, OffY = 1, Positive = 1);
+	font-family: 黑体;
+	FONT-SIZE: 28px;
+	LINE-HEIGHT: 30px;
+	POSITION: relative;
+	WIDTH: 100%
+}
+
+.fontbox2 {
+	COLOR: #024627;
+	FONT-SIZE: 18px;
+	filter: progid : DXImageTransform.Microsoft.Shadow ( Color = #000000, Direction = -10, strength = 3 );
+}
+
+.fontbox3 {
+	COLOR: #000000;
+	FILTER: DropShadow(color = #b3c6c0, OffX = 1, OffY = 1, Positive = 1);
+	font-family: 黑体;
+	FONT-SIZE: 13px;
+	LINE-HEIGHT: 30px;
+	POSITION: relative;
+	WIDTH: 100%
+}
+.table1 {
+	cellpadding: "0"; 
+	cellspacing: "0"; 
+	border-collapse: collapse;
+	border: 1px;
+	filter: progid : DXImageTransform.Microsoft.Shadow ( Color = #222222, Direction = 120, strength = 3 );
+}
+
+.input_ym{
+	 background:ydjm;
+}
+
+.drop02 {
+	color: #733729;
+	filter: DropShadow(Color = #ffffff, OffX = 1, OffY = 1, Positive = 1);
+	FONT-SIZE: 114px;
+}
+
+label{
+	font-size:13px;
+	color: black;
+}
+
+span{
+	font-size:13px;
+}
+
+input{
+	font-size:13px;
+}
+
+		.white_content {
+	display: block;
+	position: absolute;
+	padding: 6px 16px;
+	border: 12px solid #D6E9F1;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+
+	.close {
+	float: right;
+	clear: both;
+	width: 100%;
+	text-align: right;
+	margin: 0 0 6px 0
+}
+
+.close a {
+	color: #333;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: 700
+}
+
+
+
+

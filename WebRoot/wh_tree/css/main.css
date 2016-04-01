@@ -1,0 +1,132 @@
+@CHARSET "UTF-8";
+ .IN{
+	      position:absolute;
+	      right:0px;
+	      bottom:0px;
+	      background-color:;
+	    }.Menu{
+	          position:absolute;
+	          right:0px;
+	    }.img_div{
+	    	position:absolute;	       
+	        right:90px;  
+	        display:none;
+	    }
+	    a{
+	      TEXT-DECORATION: none;
+	    }b2{
+       		background-image:url(./images/lxng1.gif);
+       	}
+	    .b1{
+       		background-image:url(./images/lxng1.gif);
+       	}
+      
+	    .rig{
+	         filter:progid:dximageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#54B486,endColorStr=#ffffff);
+	    }
+	    .rig1{
+	         filter:progid:dximageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#FFFFFF,endColorStr=#54B486);
+	    }
+	    .body11 {/* background: url(images/backgrnd.jpg);*/ color: black; font-family: Georgia; line-height: 1.5; }
+		.drop0 {color:#FFFFFF;filter: DropShadow(Color=#000000, OffX=1, OffY=1, Positive=1);FONT-SIZE: 14px;}
+		.drop1 {color:#000000;filter: DropShadow(Color=#FFFFFF, OffX=1, OffY=1, Positive=1);FONT-SIZE: 14px;}    
+		.fontbox{COLOR: #000000; FILTER: DropShadow(color=white,OffX=2, OffY=1, Positive=1); font-family: 黑体;FONT-SIZE: 28px; LINE-HEIGHT: 30px; POSITION: relative; WIDTH: 100%}
+		.fontbox2{
+			COLOR: #024627;
+			FONT-SIZE:18px;
+			filter:progid:DXImageTransform.Microsoft.Shadow(Color=#54B486,Direction=90,strength=5);
+		}
+		.table1 {
+			border-collapse:collapse;
+			border:1px solid #000;
+			filter:progid:DXImageTransform.Microsoft.Shadow(Color=#54B486,Direction=120,strength=5); 
+			
+		}
+	    body1{
+			background: #FFF;
+			color: #000;
+			font: normal 12px 宋体,arial,sans-serif;
+			margin: 0;
+			padding: 0;
+			text-align: left;
+		}
+		div,form,ul,ol,li,span,p {
+			border: 0;
+			margin: 0;
+			padding: 0;
+		}
+		/*清除float*/
+		.clear{
+			clear: both;
+			font-size: 1px;
+			visibility: hidden;
+		}
+		/*分类标题*/
+		.class_title{
+			margin: 0 auto;
+			width: 20px;
+			height: 75px;
+			border: 1px solid #9EB1C0;
+			padding: 1px;
+			background:url(http://www.east-dragon.cn/files/sw/images/title_bg.gif);
+		}
+		#div_out{
+			margin: 0 auto;
+			width: 0px;
+			height: 96px;
+			border: 1px solid #9EB1C0;
+			padding: 0px;
+			spacing:0px;
+			display: block;
+		    overflow:hidden;	    
+		    position:absolute;
+		    right:0px;
+		}
+		.class_title h2{
+			margin: 0;
+			padding: 2px 0 2px 18px;
+			height: 12px;
+			color: #16387C;
+			font: bold 13px 宋体,arial,sans-serif;
+			cursor:pointer;
+			letter-spacing: 2px;
+			text-align: center;
+			z-index: 20;
+			zindex: 20;
+		}
+		#tabclass1{
+			background:url(http://www.east-dragon.cn/files/sw/images/tab_drop1.gif) 6px ;
+		}
+		/*分类列表（模块一）*/
+		#class_cnt1{
+			background: url(http://www.east-dragon.cn/files/sw/images/class_cntbg.gif) ;
+			border: solid #9EB1C0;
+			border-width: 0 1px 1px 1px;
+			height: 97px;
+			margin-right: 0px;
+			text-align: left;
+			width: 520px;
+			display: none;
+		    overflow:hidden;	    
+		    position:relative;
+		    right:0px;
+		    top:opx;
+		}
+		#class_cnt1 p{
+		   margin:0;
+		   padding:3px;
+		   line-height:150%;
+		}
+		.class_button{
+			width:35px;
+			height:90px;
+			writing-mode:tb-rl;
+			font-size:14px;
+			letter-spacing:2px;
+			filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr=#ffffff, EndColorStr=#cecfde);			
+		}
+		.btn {
+			
+			BORDER-RIGHT: #7b9ebd 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #7b9ebd 1px solid; PADDING-LEFT: 2px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde); BORDER-LEFT: #7b9ebd 1px solid; CURSOR: hand; COLOR: black; PADDING-TOP: 2px; BORDER-BOTTOM: #7b9ebd 1px solid
+		}
+		.td2{}

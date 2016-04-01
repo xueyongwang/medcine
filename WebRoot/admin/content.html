@@ -1,0 +1,291 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+<p> 附件中的项目，有网友说有问题，我给删除掉了，以免误导大众。这里只是做个抛砖引玉，了解下springmvc的搭建流程即可、建议使用maven管理jar包，方便实用。</p>
+<p> </p>
+<p>     简单写一个搭建Spring MVC3.0的流程(以Spring3.0.5为列)，数据库交互使用SpringJdbcTemplate，附件有项目（没有jar包）。整个项目结构如下图所示：</p>
+<p><img alt="" src="http://dl.iteye.com/upload/attachment/596118/e24eb4c9-e346-3ac9-926a-75ef7c45fb25.jpg"></p>
+<p> </p>
+<p> 1、去官网下载3.0.5所有jar包，所需jar包，见附件图片，每个jar包得用处如下：</p>
+<p>org.springframework.aop- 3.0.0.RELEASE--------------------Spring的面向切面编程,提供AOP(面向切面编程)实现</p>
+<p>org.springframework.asm- 3.0.0.RELEASE--------------------Spring独立的asm程序,相遇Spring2.5.6的时候需要asmJar 包.3.0开始提供他自己独立的asmJar</p>
+<p>org.springframework.aspects- 3.0.0.RELEASE----------------Spring提供对AspectJ框架的整合\</p>
+<p>org.springframework.beans- 3.0.0.RELEASE------------------SpringIoC(依赖注入)的基础实现</p>
+<p>org.springframework.context.support- 3.0.0.RELEASE--------Spring-context的扩展支持,用于MVC方面</p>
+<p>org.springframework.context- 3.0.0.RELEASE----------------Spring提供在基础IoC功能上的扩展服务，此外还提供许多企业级服务的支持，如邮件服务、任务调度、JNDI定位、EJB集成、远程访问、缓存以及各种视图层框架的封装等</p>
+<p>org.springframework.core- 3.0.0.RELEASE-------------------Spring3.0的核心工具包</p>
+<p>org.springframework.expression- 3.0.0.RELEASE-------------Spring表达式语言</p>
+<p>org.springframework.instrument.tomcat- 3.0.0.RELEASE------Spring3.0对Tomcat的连接池的集成</p>
+<p>org.springframework.instrument- 3.0.0.RELEASE-------------Spring3.0对服务器的代理接口</p>
+<p>org.springframework.jdbc- 3.0.0.RELEASE-------------------对JDBC的简单封装</p>
+<p>org.springframework.jms- 3.0.0.RELEASE--------------------为简化JMS API的使用而作的简单封装</p>
+<p>org.springframework.orm- 3.0.0.RELEASE--------------------整合第三方的ORM框架，如hibernate,ibatis,jdo，以及spring的JPA实现</p>
+<p>org.springframework.oxm-3.0.0.RELEASE--------------------Spring 对Object/XMl的映射支持,可以让Java与XML之间来回切换</p>
+<p>org.springframework.test- 3.0.0.RELEASE--------------------对Junit等测试框架的简单封装</p>
+<p>org.springframework.transaction- 3.0.0.RELEASE-------------为JDBC、Hibernate、JDO、JPA等提供的一致的声明式和编程式事务管理</p>
+<p>org.springframework.web.portlet- 3.0.0.RELEASE-------------SpringMVC的增强</p>
+<p>org.springframework.web.servlet- 3.0.0.RELEASE-------------对JEE6.0 Servlet3.0的支持</p>
+<p>org.springframework.web.struts- 3.0.0.RELEASE--------------整合Struts的时候的支持</p>
+<p>org.springframework.web- 3.0.0.RELEASE--------------------SpringWeb下的工具包</p>
+<p><br>
+  说明：jar包库使用官方提供的，无需全部加载到项目中。</p>
+<p>  ①、spring对jdk的依赖：</p>
+<p>   </p>
+<ul>
+  <li>JDK 6+ for Spring Framework 4.x</li>
+  <li>JDK 5+ for Spring Framework 3.x</li>
+</ul>
+<p>  ②、对spring的maven依赖以及介绍，请看<a target="_blank" href="http://projects.spring.io/spring-framework/">官方简介</a>；</p>
+<p>  ③、spring各个版本的jar包全量下载地址，请<a target="_blank" href="http://repo.spring.io/libs-release-local/org/springframework/spring/">点击这里</a>，有惊喜！<br>
+  ④、什么?! 有些人想只要获取spring的一个jar包，不想全部都下载，那就请<a target="_blank" href="http://repo.springsource.org/libs-release-local/">点击这里</a>。</p>
+<p> </p>
+<p>2、借鉴spring官网写法，建立一个src-resources Source Folder，再新建目录META-INF,存放springmvc-servlet.xml和jdbc-context.xml文件(事务和数据库连接池的管理)；以及database.properties和log4j.properties。</p>
+<p> </p>
+<p>JDBC-context.xml文件：</p>
+<div id="div">
+  <div>
+    <div>Xml代码 
+      <embed wmode="transparent" src="http://aokunsang.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3Cbeans%20xmlns%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Fbeans%22%20%20%0A%20%20%20%20xmlns%3Axsi%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema-instance%22%20%20%20%0A%20%20%20%20xmlns%3Aaop%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Faop%22%20%20%0A%20%20%20%20xmlns%3Atx%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Ftx%22%20%20%0A%20%20%20%20xmlns%3Acontext%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Fcontext%22%20%20%0A%20%20%20%20xsi%3AschemaLocation%3D%22%20%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fbeans%20%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fbeans%2Fspring-beans-3.0.xsd%20%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Ftx%20%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Ftx%2Fspring-tx-3.0.xsd%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fcontext%20%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fcontext%2Fspring-context-3.0.xsd%20%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Faop%20%20%20%0A%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Faop%2Fspring-aop-3.0.xsd%22%20default-autowire%3D%22byName%22%3E%0A%0A%20%20%20%20%20%3Ccontext%3Aproperty-placeholder%20location%3D%22classpath%3Adatabase.properties%22%2F%3E%0A%20%20%20%20%20%0A%20%20%20%20%20%3Cbean%20id%3D%22dataSource%22%20class%3D%22com.mchange.v2.c3p0.ComboPooledDataSource%22%20destroy-method%3D%22close%22%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22driverClass%22%20value%3D%22%24%7Bmysql.driverclass%7D%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22jdbcUrl%22%20value%3D%22%24%7Bmysql.jdbcurl%7D%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22user%22%20value%3D%22%24%7Bmysql.user%7D%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22password%22%20value%3D%22%24%7Bmysql.password%7D%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22acquireIncrement%22%20value%3D%225%22%3E%3C%2Fproperty%3E%20%20%3C!--%20%E5%BD%93%E8%BF%9E%E6%8E%A5%E6%B1%A0%E4%B8%AD%E7%9A%84%E8%BF%9E%E6%8E%A5%E7%94%A8%E5%AE%8C%E6%97%B6%EF%BC%8CC3P0%E4%B8%80%E6%AC%A1%E6%80%A7%E5%88%9B%E5%BB%BA%E6%96%B0%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%95%B0%E7%9B%AE2%20--%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22initialPoolSize%22%20value%3D%2210%22%3E%3C%2Fproperty%3E%20%20%3C!--%20%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E5%88%9B%E5%BB%BA%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%95%B0%EF%BC%8C%E5%BF%85%E9%A1%BB%E5%9C%A8minPoolSize%E5%92%8CmaxPoolSize%E4%B9%8B%E9%97%B4%20--%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22minPoolSize%22%20value%3D%2220%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22maxPoolSize%22%20value%3D%2220%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%20%09%3C!--%20%E6%9C%80%E5%A4%A7%E7%A9%BA%E9%97%B2%E6%97%B6%E9%97%B4%EF%BC%8C%E8%B6%85%E8%BF%87%E7%A9%BA%E9%97%B2%E6%97%B6%E9%97%B4%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%B0%86%E8%A2%AB%E4%B8%A2%E5%BC%83%0A%20%20%20%20%20%09%5B%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%EF%BC%9Amysql%E9%BB%98%E8%AE%A4%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%97%B6%E9%95%BF%E4%B8%BA8%E5%B0%8F%E6%97%B6(28800%EF%BC%89%E3%80%90%E5%8F%AF%E5%9C%A8my.ini%E4%B8%AD%E6%B7%BB%E5%8A%A0%20wait_timeout%3D30(%E5%8D%95%E4%BD%8D%E7%A7%92)%E8%AE%BE%E7%BD%AE%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E3%80%91%2C%E8%BF%99%E9%87%8C%E8%AE%BE%E7%BD%AEc3p0%E7%9A%84%E8%B6%85%E6%97%B6%E5%BF%85%E9%A1%BB%3C28800%5D%20%0A%20%20%20%20%20%09--%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22maxIdleTime%22%20value%3D%22300%22%3E%3C%2Fproperty%3E%20%20%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22idleConnectionTestPeriod%22%20value%3D%2260%22%3E%3C%2Fproperty%3E%20%3C!--%20%E6%AF%8F60%E7%A7%92%E6%A3%80%E6%9F%A5%E8%BF%9E%E6%8E%A5%E6%B1%A0%E4%B8%AD%E7%9A%84%E7%A9%BA%E9%97%B2%E8%BF%9E%E6%8E%A5%20--%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22maxStatements%22%20value%3D%2220%22%3E%3C%2Fproperty%3E%20%20%3C!--%20jdbc%E7%9A%84%E6%A0%87%E5%87%86%E5%8F%82%E6%95%B0%20%20%E7%94%A8%E4%BB%A5%E6%8E%A7%E5%88%B6%E6%95%B0%E6%8D%AE%E6%BA%90%E5%86%85%E5%8A%A0%E8%BD%BD%E7%9A%84PreparedStatement%E6%95%B0%E9%87%8F%EF%BC%8C%E4%BD%86%E7%94%B1%E4%BA%8E%E9%A2%84%E7%BC%93%E5%AD%98%E7%9A%84Statement%E5%B1%9E%20%E4%BA%8E%E5%8D%95%E4%B8%AAConnection%E8%80%8C%E4%B8%8D%E6%98%AF%E6%95%B4%E4%B8%AA%E8%BF%9E%E6%8E%A5%20--%3E%0A%20%20%20%20%20%3C%2Fbean%3E%0A%20%20%20%20%20%0A%20%20%20%20%20%3Cbean%20id%3D%22txManager%22%20class%3D%22org.springframework.jdbc.datasource.DataSourceTransactionManager%22%3E%0A%20%20%20%20%20%09%3Cproperty%20name%3D%22dataSource%22%20ref%3D%22dataSource%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%20%3C%2Fbean%3E%0A%20%20%20%20%20%0A%20%20%20%20%20%3C!--%20%E5%A3%B0%E6%98%8E%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86%20--%3E%0A%20%20%20%20%20%3Caop%3Aconfig%3E%0A%20%20%20%20%20%09%3Caop%3Aadvisor%20pointcut%3D%22execution(*%20com.aokunsang.service.impl.*ServiceImpl.*(..))%22%20advice-ref%3D%22myAdvice%22%2F%3E%0A%20%20%20%20%20%3C%2Faop%3Aconfig%3E%0A%20%20%20%20%20%3Ctx%3Aadvice%20id%3D%22myAdvice%22%20transaction-manager%3D%22txManager%22%3E%0A%20%20%20%20%20%09%3Ctx%3Aattributes%3E%0A%20%20%20%20%20%09%09%3Ctx%3Amethod%20name%3D%22add*%22%20propagation%3D%22REQUIRED%22%2F%3E%0A%20%20%20%20%20%09%09%3Ctx%3Amethod%20name%3D%22update*%22%20propagation%3D%22REQUIRED%22%2F%3E%0A%20%20%20%20%20%09%09%3Ctx%3Amethod%20name%3D%22*%22%20read-only%3D%22true%22%20rollback-for%3D%22com.aokunsang.util.DaoException%22%2F%3E%0A%20%20%20%20%20%09%3C%2Ftx%3Aattributes%3E%0A%20%20%20%20%20%3C%2Ftx%3Aadvice%3E%0A%20%20%20%20%20%0A%20%20%20%20%20%3C!--%20%E8%87%AA%E5%8A%A8%E6%89%AB%E6%8F%8F%E7%BB%84%E4%BB%B6%EF%BC%8C%E9%9C%80%E8%A6%81%E6%8A%8Acontroller%E5%8E%BB%E6%8E%89%EF%BC%8C%E5%90%A6%E5%88%99%E5%BD%B1%E5%93%8D%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86%20--%3E%0A%20%20%20%20%20%3Ccontext%3Acomponent-scan%20base-package%3D%22com.aokunsang%22%3E%0A%20%20%20%20%20%09%3Ccontext%3Aexclude-filter%20type%3D%22regex%22%20expression%3D%22com.aokunsang.web.*%22%2F%3E%0A%20%20%20%20%20%3C%2Fcontext%3Acomponent-scan%3E%0A%3C%2Fbeans%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">  
+      <a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img src="http://aokunsang.iteye.com/images/icon_star.png" alt="收藏代码"></a></div>
+  </div>
+  <ol start="1">
+    <li>&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </li>
+    <li>&lt;beans xmlns="http://www.springframework.org/schema/beans"    </li>
+    <li>    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"     </li>
+    <li>    xmlns:aop="http://www.springframework.org/schema/aop"    </li>
+    <li>    xmlns:tx="http://www.springframework.org/schema/tx"    </li>
+    <li>    xmlns:context="http://www.springframework.org/schema/context"    </li>
+    <li>    xsi:schemaLocation="     </li>
+    <li>          http://www.springframework.org/schema/beans     </li>
+    <li>          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd     </li>
+    <li>          http://www.springframework.org/schema/tx     </li>
+    <li>          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd    </li>
+    <li>          http://www.springframework.org/schema/context     </li>
+    <li>          http://www.springframework.org/schema/context/spring-context-3.0.xsd     </li>
+    <li>          http://www.springframework.org/schema/aop     </li>
+    <li>          http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-autowire="byName"&gt;  </li>
+    <li>  </li>
+    <li>     &lt;context:property-placeholder location="classpath:database.properties"/&gt;  </li>
+    <li>       </li>
+    <li>     &lt;bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"&gt;  </li>
+    <li>        &lt;property name="driverClass" value="${mysql.driverclass}"&gt;&lt;/property&gt;  </li>
+    <li>        &lt;property name="jdbcUrl" value="${mysql.jdbcurl}"&gt;&lt;/property&gt;  </li>
+    <li>        &lt;property name="user" value="${mysql.user}"&gt;&lt;/property&gt;  </li>
+    <li>        &lt;property name="password" value="${mysql.password}"&gt;&lt;/property&gt;  </li>
+    <li>        &lt;property name="acquireIncrement" value="5"&gt;&lt;/property&gt;  &lt;!-- 当连接池中的连接用完时，C3P0一次性创建新连接的数目2 --&gt;  </li>
+    <li>        &lt;property name="initialPoolSize" value="10"&gt;&lt;/property&gt;  &lt;!-- 初始化时创建的连接数，必须在minPoolSize和maxPoolSize之间 --&gt;  </li>
+    <li>        &lt;property name="minPoolSize" value="20"&gt;&lt;/property&gt;  </li>
+    <li>        &lt;property name="maxPoolSize" value="20"&gt;&lt;/property&gt;  </li>
+    <li>        &lt;!-- 最大空闲时间，超过空闲时间的连接将被丢弃  </li>
+    <li>        [需要注意：mysql默认的连接时长为8小时(28800）【可在my.ini中添加 wait_timeout=30(单位秒)设置连接超时】,这里设置c3p0的超时必须&lt;28800]   </li>
+    <li>        --&gt;  </li>
+    <li>        &lt;property name="maxIdleTime" value="300"&gt;&lt;/property&gt;    </li>
+    <li>        &lt;property name="idleConnectionTestPeriod" value="60"&gt;&lt;/property&gt; &lt;!-- 每60秒检查连接池中的空闲连接 --&gt;  </li>
+    <li>        &lt;property name="maxStatements" value="20"&gt;&lt;/property&gt;  &lt;!-- jdbc的标准参数  用以控制数据源内加载的PreparedStatement数量，但由于预缓存的Statement属 于单个Connection而不是整个连接 --&gt;  </li>
+    <li>     &lt;/bean&gt;  </li>
+    <li>       </li>
+    <li>     &lt;bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"&gt;  </li>
+    <li>        &lt;property name="dataSource" ref="dataSource"&gt;&lt;/property&gt;  </li>
+    <li>     &lt;/bean&gt;  </li>
+    <li>       </li>
+    <li>     &lt;!-- 声明式事务管理 --&gt;  </li>
+    <li>     &lt;aop:config&gt;  </li>
+    <li>        &lt;aop:advisor pointcut="execution(* com.aokunsang.service.impl.*ServiceImpl.*(..))" advice-ref="myAdvice"/&gt;  </li>
+    <li>     &lt;/aop:config&gt;  </li>
+    <li>     &lt;tx:advice id="myAdvice" transaction-manager="txManager"&gt;  </li>
+    <li>        &lt;tx:attributes&gt;  </li>
+    <li>            &lt;tx:method name="add*" propagation="REQUIRED"/&gt;  </li>
+    <li>            &lt;tx:method name="update*" propagation="REQUIRED"/&gt;  </li>
+    <li>            &lt;tx:method name="*" read-only="true" rollback-for="com.aokunsang.util.DaoException"/&gt;  </li>
+    <li>        &lt;/tx:attributes&gt;  </li>
+    <li>     &lt;/tx:advice&gt;  </li>
+    <li>       </li>
+    <li>     &lt;!-- 自动扫描组件，需要把controller去掉，否则影响事务管理 --&gt;  </li>
+    <li>     &lt;context:component-scan base-package="com.aokunsang"&gt;  </li>
+    <li>        &lt;context:exclude-filter type="regex" expression="com.aokunsang.web.*"/&gt;  </li>
+    <li>     &lt;/context:component-scan&gt;  </li>
+    <li>&lt;/beans&gt;  </li>
+  </ol>
+</div>
+<p> </p>
+<p> springmvc-servlet.xml文件：</p>
+<p> </p>
+<div id="div">
+  <div>
+    <div>Xml代码 
+      <embed wmode="transparent" src="http://aokunsang.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3Cbeans%20xmlns%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Fbeans%22%20%20%0A%20%20%20%20xmlns%3Axsi%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema-instance%22%20xmlns%3Ap%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Fp%22%20%20%0A%20%20%20%20xmlns%3Acontext%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Fcontext%22%20%20%0A%20%20%20%20xmlns%3Amvc%3D%22http%3A%2F%2Fwww.springframework.org%2Fschema%2Fmvc%22%20%20%0A%20%20%20%20xsi%3AschemaLocation%3D%22%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fbeans%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fbeans%2Fspring-beans-3.0.xsd%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fcontext%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fcontext%2Fspring-context-3.0.xsd%20%20%0A%20%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fmvc%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20http%3A%2F%2Fwww.springframework.org%2Fschema%2Fmvc%2Fspring-mvc-3.0.xsd%22%3E%0A%20%20%20%20%0A%20%20%20%20%3C!--%20%E5%90%AF%E5%8A%A8%E6%89%AB%E6%8F%8F%E6%89%80%E6%9C%89%E7%9A%84controller%20--%3E%0A%20%20%20%20%3Ccontext%3Acomponent-scan%20base-package%3D%22com.aokunsang.web%22%2F%3E%0A%20%20%20%20%0A%20%20%20%20%3C!--%20%20%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8%E4%BA%8E%40Controller%EF%BC%8C%E6%BF%80%E6%B4%BB%E8%AF%A5%E6%A8%A1%E5%BC%8F%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%09%E4%B8%8B%E9%9D%A2%E6%98%AF%E4%B8%80%E7%A7%8D%E7%AE%80%E5%86%99%E5%BD%A2%E5%BC%8F%EF%BC%8C%E5%AE%8C%E5%85%A8%E5%8F%AF%E4%BB%A5%E6%89%8B%E5%8A%A8%E9%85%8D%E7%BD%AE%E6%9B%BF%E4%BB%A3%E8%BF%99%E7%A7%8D%E7%AE%80%E5%86%99%E5%BD%A2%E5%BC%8F%EF%BC%9B%0A%20%20%20%20%09%20%E5%AE%83%E4%BC%9A%E8%87%AA%E5%8A%A8%E6%B3%A8%E5%86%8CDefaultAnnotationHandlerMapping%E4%B8%8EAnnotationMethodHandlerAdapter%20%E4%B8%A4%E4%B8%AAbean%2C%0A%20%20%20%20%09%20%20%20%E6%98%AFspring%20MVC%E4%B8%BA%40Controllers%E5%88%86%E5%8F%91%E8%AF%B7%E6%B1%82%E6%89%80%E5%BF%85%E9%A1%BB%E7%9A%84%0A%20%20%20%20%20--%3E%0A%20%20%20%20%3Cmvc%3Aannotation-driven%2F%3E%0A%20%20%20%20%0A%20%20%20%20%3C!--%20%E8%BF%99%E9%87%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E8%BF%98%E6%9C%89%E4%B8%80%E7%A7%8D%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E3%80%90%E9%92%88%E5%AF%B9%E8%B7%AF%E5%BE%84%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE%E3%80%91%20%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E8%BF%99%E4%B8%AA%EF%BC%8C%E6%96%B9%E4%BE%BF%E7%9B%B4%E8%A7%82--%3E%0A%20%20%20%20%3Cmvc%3Ainterceptors%3E%0A%20%20%20%20%09%3Cmvc%3Ainterceptor%3E%0A%20%20%20%20%09%09%3Cmvc%3Amapping%20path%3D%22%2Fuser%2FMyHome%22%2F%3E%0A%20%20%20%20%09%09%3Cmvc%3Amapping%20path%3D%22%2Fusermanager%2F*%22%2F%3E%0A%09%09%09%3Cbean%20%20class%3D%22com.aokunsang.web.interceptor.MyInterceptor%22%3E%3C%2Fbean%3E%0A%20%20%20%20%09%3C%2Fmvc%3Ainterceptor%3E%0A%20%20%20%20%3C%2Fmvc%3Ainterceptors%3E%0A%20%20%20%20%0A%20%20%20%20%20%3C!--%20%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%20%0A%20%20%20%20%3Cmvc%3Ainterceptors%3E%0A%20%20%20%20%09%3Cbean%20class%3D%22com.aokunsang.web.interceptor.MyInterceptor%22%3E%3C%2Fbean%3E%0A%20%20%20%20%3C%2Fmvc%3Ainterceptors%3E%0A%20%20%20%20--%3E%0A%20%20%20%20%3C!--%20%E9%85%8D%E7%BD%AEjs%EF%BC%8Ccss%E7%AD%89%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9B%B4%E6%8E%A5%E6%98%A0%E5%B0%84%E5%88%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%8C%E4%B8%8D%E8%A2%ABDispatcherServlet%E5%A4%84%E7%90%86%20%0A%09mapping%20---%20WebRoot%E9%87%8C%E9%9D%A2%E7%9A%84%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE%E7%9B%AE%E5%BD%95%0A%09location%20---%20%E8%AE%BF%E9%97%AE%E5%9C%B0%E5%9D%80%20%0A%20%20%20%20--%3E%0A%20%20%20%20%3Cmvc%3Aresources%20location%3D%22%2Fresources%2F**%22%20mapping%3D%22%2FWEB-INF%2Fresources%2F%22%2F%3E%0A%0A%20%20%20%20%3C!--%0A%20%20%20%20%20%20%20%E9%85%8D%E7%BD%AE%2FWEB-INF%2Fviews%2F%E7%9B%AE%E5%BD%95%E9%87%8C%E9%9D%A2%E7%9A%84jsp%E6%96%87%E4%BB%B6%E4%B8%8D%E8%A2%ABDispatcherServlet%E5%A4%84%E7%90%86%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE%E3%80%82%0A%20%20%20%20%20%20%20view-name%20---%20%2FWEB-INF%2Fviews%2F%E9%87%8C%E9%9D%A2%E7%9A%84jsp%E6%96%87%E4%BB%B6%E5%90%8D(%E4%B8%8D%E8%AE%B8%E5%90%8E%E7%BC%80%E5%8D%B3%E5%8F%AF)%0A%20%20%20%20%20%20%20path%20---%20%20%E8%AE%BF%E9%97%AE%E5%9C%B0%E5%9D%80%0A%20%20%20%20--%3E%20%0A%20%20%20%20%3Cmvc%3Aview-controller%20path%3D%22%2Fheader%22%20view-name%3D%22header%22%2F%3E%0A%0A%20%20%20%20%3C!--%20jsp%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E5%99%A8%EF%BC%8C%E5%BD%93Controller%E8%BF%94%E5%9B%9EXXX%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%97%B6%EF%BC%8C%E5%85%88%E9%80%9A%E8%BF%87%E6%8B%A6%E6%88%AA%E5%99%A8%EF%BC%8C%E7%84%B6%E5%90%8E%E8%AF%A5%E7%B1%BB%E5%B0%B1%E4%BC%9A%E5%9C%A8%2FWEB-INF%2Fviews%2F%E7%9B%AE%E5%BD%95%E4%B8%8B%EF%BC%8C%E6%9F%A5%E6%89%BEXXX.jsp%E6%96%87%E4%BB%B6--%3E%0A%20%20%20%20%3Cbean%20class%3D%22org.springframework.web.servlet.view.InternalResourceViewResolver%22%3E%0A%20%20%20%20%09%3Cproperty%20name%3D%22prefix%22%20value%3D%22%2FWEB-INF%2Fviews%2F%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%09%3Cproperty%20name%3D%22suffix%22%20value%3D%22.jsp%22%3E%3C%2Fproperty%3E%0A%20%20%20%20%3C%2Fbean%3E%0A%3C%2Fbeans%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">  
+      <a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img src="http://aokunsang.iteye.com/images/icon_star.png" alt="收藏代码"></a></div>
+  </div>
+  <ol start="1">
+    <li>&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </li>
+    <li>&lt;beans xmlns="http://www.springframework.org/schema/beans"    </li>
+    <li>    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"    </li>
+    <li>    xmlns:context="http://www.springframework.org/schema/context"    </li>
+    <li>    xmlns:mvc="http://www.springframework.org/schema/mvc"    </li>
+    <li>    xsi:schemaLocation="     </li>
+    <li>           http://www.springframework.org/schema/beans     </li>
+    <li>           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd     </li>
+    <li>           http://www.springframework.org/schema/context     </li>
+    <li>           http://www.springframework.org/schema/context/spring-context-3.0.xsd    </li>
+    <li>           http://www.springframework.org/schema/mvc     </li>
+    <li>           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"&gt;  </li>
+    <li>      </li>
+    <li>    &lt;!-- 启动扫描所有的controller --&gt;  </li>
+    <li>    &lt;context:component-scan base-package="com.aokunsang.web"/&gt;  </li>
+    <li>      </li>
+    <li>    &lt;!--  主要作用于@Controller，激活该模式  </li>
+    <li>          </li>
+    <li>        下面是一种简写形式，完全可以手动配置替代这种简写形式；  </li>
+    <li>         它会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,  </li>
+    <li>           是spring MVC为@Controllers分发请求所必须的  </li>
+    <li>     --&gt;  </li>
+    <li>    &lt;mvc:annotation-driven/&gt;  </li>
+    <li>      </li>
+    <li>    &lt;!-- 这里拦截器还有一种配置方法【针对路径进行配置】 推荐使用这个，方便直观--&gt;  </li>
+    <li>    &lt;mvc:interceptors&gt;  </li>
+    <li>        &lt;mvc:interceptor&gt;  </li>
+    <li>            &lt;mvc:mapping path="/user/MyHome"/&gt;  </li>
+    <li>            &lt;mvc:mapping path="/usermanager/*"/&gt;  </li>
+    <li>            &lt;bean  class="com.aokunsang.web.interceptor.MyInterceptor"&gt;&lt;/bean&gt;  </li>
+    <li>        &lt;/mvc:interceptor&gt;  </li>
+    <li>    &lt;/mvc:interceptors&gt;  </li>
+    <li>      </li>
+    <li>     &lt;!-- 全局配置   </li>
+    <li>    &lt;mvc:interceptors&gt;  </li>
+    <li>        &lt;bean class="com.aokunsang.web.interceptor.MyInterceptor"&gt;&lt;/bean&gt;  </li>
+    <li>    &lt;/mvc:interceptors&gt;  </li>
+    <li>    --&gt;  </li>
+    <li>    &lt;!-- 配置js，css等静态文件直接映射到对应的文件夹，不被DispatcherServlet处理   </li>
+    <li>    mapping --- WebRoot里面的静态文件位置目录  </li>
+    <li>    location --- 访问地址   </li>
+    <li>    --&gt;  </li>
+    <li>    &lt;mvc:resources location="/resources/**" mapping="/WEB-INF/resources/"/&gt;  </li>
+    <li>  </li>
+    <li>    &lt;!--  </li>
+    <li>       配置/WEB-INF/views/目录里面的jsp文件不被DispatcherServlet处理，可以直接通过浏览器访问。  </li>
+    <li>       view-name --- /WEB-INF/views/里面的jsp文件名(不许后缀即可)  </li>
+    <li>       path ---  访问地址  </li>
+    <li>    --&gt;   </li>
+    <li>    &lt;mvc:view-controller path="/header" view-name="header"/&gt;  </li>
+    <li>  </li>
+    <li>    &lt;!-- jsp页面解析器，当Controller返回XXX字符串时，先通过拦截器，然后该类就会在/WEB-INF/views/目录下，查找XXX.jsp文件--&gt;  </li>
+    <li>    &lt;bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;  </li>
+    <li>        &lt;property name="prefix" value="/WEB-INF/views/"&gt;&lt;/property&gt;  </li>
+    <li>        &lt;property name="suffix" value=".jsp"&gt;&lt;/property&gt;  </li>
+    <li>    &lt;/bean&gt;  </li>
+    <li>&lt;/beans&gt;  </li>
+  </ol>
+</div>
+<p> 3、修改web.xml文件如下：</p>
+<p> </p>
+<div id="div">
+  <div>
+    <div>Xml代码 
+      <embed wmode="transparent" src="http://aokunsang.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3C!--%20Log4j%E7%9A%84%E9%85%8D%E7%BD%AE(%E5%9C%A8%E5%90%8C%E4%B8%80%E5%AE%B9%E5%99%A8%E4%B8%AD%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AA%E5%BA%94%E7%94%A8%E6%97%B6%EF%BC%8C%0A%20%20%20%20%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E9%BB%98%E8%AE%A4%E7%9A%84webAppRootKey%2C%E5%BF%85%E9%A1%BB%E6%8C%87%E5%AE%9A%E5%94%AF%E4%B8%80KEY%2C%E4%BB%A5%E5%85%8D%E5%86%B2%E7%AA%81)%20%0A--%3E%09%0A%3Ccontext-param%3E%0A%20%20%20%20%3Cparam-name%3EwebAppRootKey%3C%2Fparam-name%3E%0A%20%20%20%20%3Cparam-value%3Espringmvc.root%3C%2Fparam-value%3E%0A%3C%2Fcontext-param%3E%0A%0A%3Ccontext-param%3E%0A%09%3Cparam-name%3EcontextConfigLocation%3C%2Fparam-name%3E%0A%09%3Cparam-value%3Eclasspath%3A%2FMETA-INF%2Fjdbc-context.xml%3C%2Fparam-value%3E%0A%20%20%3C%2Fcontext-param%3E%20%20%0A%20%20%0A%20%20%3Clistener%3E%0A%20%20%09%3Clistener-class%3Eorg.springframework.web.context.ContextLoaderListener%3C%2Flistener-class%3E%0A%20%20%3C%2Flistener%3E%0A%0A%20%20%3Cservlet%3E%0A%20%20%09%3Cservlet-name%3Espring-mvc%3C%2Fservlet-name%3E%0A%20%20%09%3Cservlet-class%3Eorg.springframework.web.servlet.DispatcherServlet%3C%2Fservlet-class%3E%0A%20%20%09%3Cinit-param%3E%0A%20%20%09%09%3Cparam-name%3EcontextConfigLocation%3C%2Fparam-name%3E%0A%20%20%09%09%3Cparam-value%3Eclasspath%3A%2FMETA-INF%2Fspringmvc-servlet.xml%3C%2Fparam-value%3E%0A%20%20%09%3C%2Finit-param%3E%0A%20%20%09%3Cload-on-startup%3E1%3C%2Fload-on-startup%3E%0A%20%20%3C%2Fservlet%3E%0A%20%20%0A%20%20%3Cservlet-mapping%3E%0A%20%20%09%3Cservlet-name%3Espring-mvc%3C%2Fservlet-name%3E%0A%20%20%09%3Curl-pattern%3E%2F%3C%2Furl-pattern%3E%0A%20%20%3C%2Fservlet-mapping%3E%0A%20%20%0A%20%20%3Cfilter%3E%0A%20%20%09%3Cfilter-name%3EencodingFilter%3C%2Ffilter-name%3E%0A%20%20%09%3Cfilter-class%3Eorg.springframework.web.filter.CharacterEncodingFilter%3C%2Ffilter-class%3E%0A%20%20%3C%2Ffilter%3E%0A%20%20%0A%20%20%3Cfilter-mapping%3E%0A%20%20%09%3Cfilter-name%3EencodingFilter%3C%2Ffilter-name%3E%0A%20%20%09%3Curl-pattern%3E%2F*%3C%2Furl-pattern%3E%0A%20%20%3C%2Ffilter-mapping%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">  
+      <a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img src="http://aokunsang.iteye.com/images/icon_star.png" alt="收藏代码"></a></div>
+  </div>
+  <ol start="1">
+    <li>&lt;!-- Log4j的配置(在同一容器中部署多个应用时，  </li>
+    <li>    不能使用默认的webAppRootKey,必须指定唯一KEY,以免冲突)   </li>
+    <li>--&gt;    </li>
+    <li>&lt;context-param&gt;  </li>
+    <li>    &lt;param-name&gt;webAppRootKey&lt;/param-name&gt;  </li>
+    <li>    &lt;param-value&gt;springmvc.root&lt;/param-value&gt;  </li>
+    <li>&lt;/context-param&gt;  </li>
+    <li>  </li>
+    <li>&lt;context-param&gt;  </li>
+    <li>    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;  </li>
+    <li>    &lt;param-value&gt;classpath:/META-INF/jdbc-context.xml&lt;/param-value&gt;  </li>
+    <li>  &lt;/context-param&gt;    </li>
+    <li>    </li>
+    <li>  &lt;listener&gt;  </li>
+    <li>    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;  </li>
+    <li>  &lt;/listener&gt;  </li>
+    <li>  </li>
+    <li>  &lt;servlet&gt;  </li>
+    <li>    &lt;servlet-name&gt;spring-mvc&lt;/servlet-name&gt;  </li>
+    <li>    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;  </li>
+    <li>    &lt;init-param&gt;  </li>
+    <li>        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;  </li>
+    <li>        &lt;param-value&gt;classpath:/META-INF/springmvc-servlet.xml&lt;/param-value&gt;  </li>
+    <li>    &lt;/init-param&gt;  </li>
+    <li>    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;  </li>
+    <li>  &lt;/servlet&gt;  </li>
+    <li>    </li>
+    <li>  &lt;servlet-mapping&gt;  </li>
+    <li>    &lt;servlet-name&gt;spring-mvc&lt;/servlet-name&gt;  </li>
+    <li>    &lt;url-pattern&gt;/&lt;/url-pattern&gt;  </li>
+    <li>  &lt;/servlet-mapping&gt;  </li>
+    <li>    </li>
+    <li>  &lt;filter&gt;  </li>
+    <li>    &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;  </li>
+    <li>    &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;  </li>
+    <li>  &lt;/filter&gt;  </li>
+    <li>    </li>
+    <li>  &lt;filter-mapping&gt;  </li>
+    <li>    &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;  </li>
+    <li>    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </li>
+    <li>  &lt;/filter-mapping&gt;  </li>
+  </ol>
+</div>
+<p> </p>
+<p> 4、从springmvc-servlet.xml中可以知道，我把jsp页面放在WEB-INF/views目录中，静态文件(图片，js，css等)放在Resources目录中，便于管理。</p>
+<p> </p>
+<p>5、以上配置文件基本完成，下面开始代码编写：</p>
+<p>首先说几个常用的注解：</p>
+<p> </p>
+<div id="div">
+  <div>
+    <div>Java代码 
+      <embed wmode="transparent" src="http://aokunsang.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%40Autowired%E5%92%8C%40Qualifier%20%20%E8%87%AA%E5%8A%A8%E6%B3%A8%E5%85%A5%5B%E6%A0%B9%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%B3%A8%E5%85%A5%5D%0A%20%20%40Autowired%20%E5%8F%AF%E4%BB%A5%E5%AF%B9%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E3%80%81%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E6%B3%A8%E9%87%8A%EF%BC%8C%0A%20%20%40Qualifier%20%E7%9A%84%E6%A0%87%E6%B3%A8%E5%AF%B9%E8%B1%A1%E6%98%AF%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E3%80%81%E6%96%B9%E6%B3%95%E5%85%A5%E5%8F%82%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%85%A5%E5%8F%82%E3%80%82%0A%20%20ps%EF%BC%9A%E4%B8%A4%E8%80%85%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%BD%93%E4%BA%8E%40Resourcede%E6%95%88%E6%9E%9C%E3%80%82%0A%40Resource%20%20%20%E8%87%AA%E5%8A%A8%E6%B3%A8%E5%85%A5%5B%E6%A0%B9%E6%8D%AE%E5%90%8D%E7%A7%B0%E6%B3%A8%E5%85%A5%5D%2C%E5%8F%AF%E5%86%99%E5%8F%82%E6%95%B0name%3D%22%22%0A%40Controller%20%E8%A1%A8%E7%A4%BA%E6%8E%A7%E5%88%B6%E5%99%A8%0A%40Service%20%20%20%20%E8%A1%A8%E7%A4%BA%E4%B8%9A%E5%8A%A1%E5%A4%84%E7%90%86%E5%B1%82%5B%E4%B8%80%E8%88%AC%E5%9C%A8serviceImpl%5D%0A%40Repository%20%E8%A1%A8%E7%A4%BA%E6%8C%81%E4%B9%85%E5%B1%82%5B%E4%B8%80%E8%88%AC%E5%9C%A8daoImpl%5D%0A%40Component%20%20%E5%BD%93%E4%BD%A0%E7%9A%84%E7%B1%BB%E4%B8%8D%E6%B8%85%E6%A5%9A%E6%98%AF%E5%93%AA%E4%B8%80%E5%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8%E8%AF%A5%E6%B3%A8%E8%A7%A3%0A%40ResponseBody%20%20%E5%BC%82%E6%AD%A5%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%BAjson%0A%40RequestMapping%20%20%E8%B7%AF%E5%BE%84%EF%BC%8C%E8%AF%B7%E6%B1%82%E7%B1%BB%E5%9E%8B%E7%AD%89%E8%AE%BE%E7%BD%AE%0A%40InitBinder%20%20%20%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%0A%40RequestBody%E3%80%81%40ModeleAttributes%E3%80%81%40SessionAttributes%E7%AD%89" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">  
+      <a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img src="http://aokunsang.iteye.com/images/icon_star.png" alt="收藏代码"></a></div>
+  </div>
+  <ol start="1">
+    <li>@Autowired和@Qualifier  自动注入[根据类型注入]  </li>
+    <li>  @Autowired 可以对成员变量、方法以及构造函数进行注释，  </li>
+    <li>  @Qualifier 的标注对象是成员变量、方法入参、构造函数入参。  </li>
+    <li>  ps：两者结合使用相当于@Resourcede效果。  </li>
+    <li>@Resource   自动注入[根据名称注入],可写参数name=""  </li>
+    <li>@Controller 表示控制器  </li>
+    <li>@Service    表示业务处理层[一般在serviceImpl]  </li>
+    <li>@Repository 表示持久层[一般在daoImpl]  </li>
+    <li>@Component  当你的类不清楚是哪一层的时候使用该注解  </li>
+    <li>@ResponseBody  异步返回数据类型为json  </li>
+    <li>@RequestMapping  路径，请求类型等设置  </li>
+    <li>@InitBinder   数据绑定  </li>
+    <li>@RequestBody、@ModeleAttributes、@SessionAttributes等  </li>
+  </ol>
+</div>
+<p> </p>
+<p> 注解的详细介绍：<a target="_blank" title="springMVC3.0注解详解" href="http://blog.csdn.net/zhongxiucheng/article/details/6662300">http://blog.csdn.net/zhongxiucheng/article/details/6662300</a> </p>
+<p> 也可以参考：<a target="_blank" href="https://www.ibm.com/developerworks/cn/java/j-lo-spring25-ioc/">https://www.ibm.com/developerworks/cn/java/j-lo-spring25-ioc/</a></p>
+<p> </p>
+<p>&lt;a&gt;首先写一个BaseController，可做一些数据绑定之类的全局操作(如：把日期字符串转换为Date日期)。</p>
+<p> </p>
+<div id="div">
+  <div>
+    <div>Java代码 
+      <embed wmode="transparent" src="http://aokunsang.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%40Controller%0Apublic%20class%20BaseController%20%7B%0A%0A%09%40InitBinder%0A%09protected%20void%20ininBinder(WebDataBinder%20binder)%7B%0A%09%09SimpleDateFormat%20sdf%20%3D%20new%20SimpleDateFormat(%22yyyy-MM-dd%22)%3B%0A%09%09binder.registerCustomEditor(Date.class%2C%20new%20CustomDateEditor(sdf%2Ctrue))%3B%0A%09%7D%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">  
+      <a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img src="http://aokunsang.iteye.com/images/icon_star.png" alt="收藏代码"></a></div>
+  </div>
+  <ol start="1">
+    <li>@Controller  </li>
+    <li>public class BaseController {  </li>
+    <li>  </li>
+    <li>    @InitBinder  </li>
+    <li>    protected void ininBinder(WebDataBinder binder){  </li>
+    <li>        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  </li>
+    <li>        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf,true));  </li>
+    <li>    }  </li>
+    <li>}  </li>
+  </ol>
+</div>
+<p> </p>
+<p>&lt;b&gt;然后写一个拦截器，拦截器有两种实现方式，1、继承HandlerInterceptorAdapter类，2、实现HandlerInterceptor接口。</p>
+</body>
+</html>

@@ -1,0 +1,26 @@
+一、先把你要维护的表名在数据库中建好,基础字段如下
+DROP TABLE IF EXISTS `user_menu`;
+CREATE TABLE `user_menu` (
+  `Id` int(11) NOT NULL auto_increment,
+  `zid` varchar(100) default NULL COMMENT '自ID',
+  `zname` varchar(255) default NULL COMMENT '自名(表名+id)',
+  `fid` varchar(100) default NULL COMMENT '父ID',
+  `fname` varchar(255) default NULL COMMENT '父名(表名+id)',
+  `zbh` varchar(255) default NULL COMMENT '自编号',
+  `fbh` varchar(255) default NULL COMMENT '父编号',
+  `leve` int(11) default NULL COMMENT '等级',
+  `message` varchar(255) default NULL COMMENT '树枝信息',
+  `wh_link` varchar(255) default '' COMMENT '维护链接',
+  `app_link` varchar(255) default NULL COMMENT '应用连接',
+  `wh_target` varchar(255) default NULL COMMENT '跳向维护页面',
+  `app_target` varchar(255) default NULL COMMENT '跳向应用页面',
+  `introduce` varchar(255) default '' COMMENT '节点信息简介',
+  PRIMARY KEY  (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='树形菜单登记';
+二、在浏览器中输入：wh_tree/index.jsp?tree_table=sys_tree&isfun=1&add_zd=null&add_value=null即可维护这颗树
+三、参数介绍：
+a.wh_tree/index.jsp为树维护的jsp地址
+b.参数tree_table为操作的树表
+c.参数isfun为字段app_link是否为方法，1代表方法，方法名为表名，如user_gn(id)	0代表空
+d.参数add_zd为除该表固有字段之外另新加的字段名，多个字段名以,隔开，		若没有新加的字段参数值为null
+e.参数add_value为除该表固有字段之外另新加的字段值，多个字段值以,隔开，	若没有新加的字段参数值为null

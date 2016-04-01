@@ -1,0 +1,105 @@
+.signin-bg {
+	background: url(../img/bg16.jpg) no-repeat 0px 0px; width: 100%; height: 100%; position: absolute;
+}
+.signin-container {
+	background: rgba(255, 255, 255, 0.3); left: 35%; width: 65%; height: 100%; position: fixed; box-shadow: 1px 3px 5px #999; -webkit-box-shadow: 1px 3px 5px #999; -moz-box-shadow: 1px 3px 5px #999;
+}
+.signup_box {
+	margin: 150px 0px 30px 45px;
+}
+.signin-txt {
+	padding: 13px 15px; border-radius: 3px; border: 1px solid rgb(204, 204, 204); transition:border 0.2s linear, box-shadow 0.2s linear; width: 260px; height: 20px; color: rgb(51, 51, 51); line-height: 20px; font-size: 14px; vertical-align: middle; box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075); background-color: rgb(255, 255, 255); -webkit-transition: border linear 0.2s, box-shadow linear 0.2s; -moz-transition: border linear 0.2s, box-shadow linear 0.2s; -o-transition: border linear 0.2s, box-shadow linear 0.2s; -webkit-border-radius: 3px; -moz-border-radius: 3px; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.error.signin-txt {
+	border: 1px solid rgb(227, 161, 152); transition:border 0.2s linear, box-shadow 0.2s linear; color: rgb(51, 51, 51); box-shadow: 0px 0px 4px #e3a198; -webkit-transition: border linear 0.2s, box-shadow linear 0.2s; -moz-transition: border linear 0.2s, box-shadow linear 0.2s; -o-transition: border linear 0.2s, box-shadow linear 0.2s; -webkit-box-shadow: 0px 0px 4px #e3a198; -moz-box-shadow: 0px 0px 4px #e3a198;
+}
+.success.signin-txt {
+	border: 1px solid rgb(70, 136, 71); transition:border 0.2s linear, box-shadow 0.2s linear; color: rgb(51, 51, 51); box-shadow: 0px 0px 4px #468847; -webkit-transition: border linear 0.2s, box-shadow linear 0.2s; -moz-transition: border linear 0.2s, box-shadow linear 0.2s; -o-transition: border linear 0.2s, box-shadow linear 0.2s; -webkit-box-shadow: 0px 0px 4px #468847; -moz-box-shadow: 0px 0px 4px #468847;
+}
+.signin-platform {
+	margin-top: 74px; border-left-color: rgb(229, 229, 229); border-left-width: 1px; border-left-style: solid; float: left; position: relative; min-height: 160px;
+}
+.signin-forget {
+	color: rgb(228, 87, 61); margin-top: 10px; margin-right: 50px; float: right;
+}
+.signin-btn {
+	padding: 5px 20px !important; font-size: 16px; font-weight: normal;
+}
+.signin-error {
+	left: 0px; position: absolute;
+}
+.signin-error-tip {
+	padding: 5px 8px; border-radius: 3px; border: 1px solid rgb(227, 161, 152); color: rgb(184, 33, 29); margin-bottom: 13px; display: inline-block; position: relative; box-shadow: 1px 1px 5px #e3a198; text-shadow: 0px 1px 0px rgba(255,255,255,0.5); background-color: rgb(254, 209, 209);
+}
+.signin-error-tip-arrow {
+	border: 8px solid transparent; position: absolute;
+}
+.right.signin-error-tip-arrow {
+	top: 6px; right: -16px; border-left-color: rgb(237, 84, 89); border-left-width: 8px; border-left-style: solid;
+}
+.right1.signin-error-tip-arrow {
+	top: 6px; right: -15px; border-left-color: rgb(254, 209, 209); border-left-width: 8px; border-left-style: solid;
+}
+.left.signin-error-tip-arrow {
+	left: -16px; top: 6px; border-right-color: rgb(237, 84, 89); border-right-width: 8px; border-right-style: solid;
+}
+.left1.signin-error-tip-arrow {
+	left: -15px; top: 6px; border-right-color: rgb(254, 209, 209); border-right-width: 8px; border-right-style: solid;
+}
+.signin-success {
+	left: 0px; position: absolute;
+}
+.signin-success-tip {
+	padding: 5px 8px; border-radius: 3px; border: 1px solid green; color: rgb(70, 136, 71); margin-bottom: 13px; display: inline-block; position: relative; box-shadow: 1px 1px 5px #d6e9c6; text-shadow: 0px 1px 0px rgba(255,255,255,0.5); background-color: rgb(223, 240, 216);
+}
+.signin-success-tip-arrow {
+	border: 8px solid transparent; position: absolute;
+}
+.right.signin-success-tip-arrow {
+	top: 6px; right: -16px; border-left-color: green; border-left-width: 8px; border-left-style: solid;
+}
+.right1.signin-success-tip-arrow {
+	top: 6px; right: -15px; border-left-color: rgb(223, 240, 216); border-left-width: 8px; border-left-style: solid;
+}
+.oauth_buttons {
+	background: url("oauth-buttons.png") no-repeat; display: inline-block; position: relative; cursor: pointer;
+}
+.oauth_buttons label {
+	left: 50px; top: 12px; color: rgb(255, 255, 255); font-size: 13px; position: absolute; cursor: pointer;
+}
+.linkedin.oauth_buttons {
+	background-position: 0px -214px; width: 191px; height: 42px;
+}
+.linkedin.oauth_buttons:hover {
+	opacity: 0.9;
+}
+.google.oauth_buttons {
+	background-position: 0px -166px; width: 191px; height: 42px;
+}
+.google.oauth_buttons:hover {
+	opacity: 0.9;
+}
+.yahoo.oauth_buttons {
+	background-position: 0px -260px; width: 191px; height: 42px;
+}
+.yahoo.oauth_buttons:hover {
+	opacity: 0.9;
+}
+.qq.oauth_buttons {
+	background-position: 0px -55px; width: 191px; height: 42px;
+}
+.qq.oauth_buttons:hover {
+	background-position: -200px -55px; width: 191px; height: 42px;
+}
+.weibo.oauth_buttons {
+	width: 191px; height: 42px;
+}
+.weibo.oauth_buttons:hover {
+	background-position: -200px 0px; width: 191px; height: 42px;
+}
+.mingdao.oauth_buttons {
+	background-position: 0px -306px; width: 191px; height: 42px;
+}
+.mingdao.oauth_buttons:hover {
+	opacity: 0.9;
+}

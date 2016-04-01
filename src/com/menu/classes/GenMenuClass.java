@@ -17,7 +17,7 @@ public class GenMenuClass {
 		String re = "";
 		int rc = 2;//标记开始
 		for (int i = 0; i < arr.length; i++) {
-			if(arr[i][1].equals("-1")){
+			if(arr[i][1].equals("-1")){//如果开始
 				continue;
 			}else if(rc==2){
 				//放到临时数组
@@ -39,6 +39,7 @@ public class GenMenuClass {
 				tempArr = makNewArr(arr[i],tempArr);
 			}
 		}
+		re+=outStr(tempArr);//2016-03-26 mod 解决菜单不显示最后一个的问题
 		return re;
 	}
 	
